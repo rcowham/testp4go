@@ -8,12 +8,16 @@ p4go programs depend on libraries:
 * P4API - can be downloaded
 * OpenSSL - can be downloaded for Linux but needs to be built for the Mac or Windows
 
+# Build on Mac
+
+## Setting up the dependency on `p4go`
+
 In addition it depends on the github p4go library, but as of the time of writing this module declares itself in a 
-way which is not compatible with a simple `require "github.com/perforce/p4go"
+way which is not compatible with a simple `require "github.com/perforce/p4go"`
 
 So instead you will need to have a local clone/copy of `p4go` and refer to it.
 
-Assuming we are in the directory of this project (`~/go/src/github.com/rcowham/testp4go`), then set this up:
+Assuming we are in the directory of this project (`~/go/src/github.com/rcowham/testp4go`), then to set this up:
 
 ```
 cd ../..
@@ -27,11 +31,9 @@ Note the `go.mod` for this project:
 
     replace github.com/perforce/p4go/p4 => ../../perforce/p4go
 
-The in our `main.go`:
+Then in our `main.go` we import like this:
 
     import p4api "github.com/perforce/p4go/p4"
-
-# Build on Mac
 
 ## Download p4api
 
@@ -71,6 +73,21 @@ cp openssl/*sylib openssl-3/
 export DYLD_LIBRARY_PATH=`pwd`/openssl-3
 ```
 
-Then we can execute our test program (which will work if `p4 info` works - as in depends on your p4 environment variables defined!)
+Then we can build:
 
-    ./testp4go
+```
+make
+
+CGO_CPPFLAGS="-I/some/path/go/src/github.com/rcowham/testp4go/p4api/include -g" \
+CGO_LDFLAGS="-L/some/path/go/src/github.com/rcowham/testp4go/p4api/lib -L/some/path/go/src/github.com/rcowham/testp4go/openssl-3 -lp4api -lssl -lcrypto -framework ApplicationServices -framework Foundation -framework Security" \
+go build
+# github.com/rcowham/testp4go
+```
+
+And to run it:
+
+```
+$ ./testp4go
+Connected to P4 server: perforce:1666
+Info: map[ServerID:myserver caseHandling:sensitive ...]
+```
