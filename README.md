@@ -12,28 +12,13 @@ p4go programs depend on libraries:
 
 ## Setting up the dependency on `p4go`
 
-In addition it depends on the github p4go library, but as of the time of writing this module declares itself in a 
-way which is not compatible with a simple `require "github.com/perforce/p4go"`
+In addition it depends on the github p4go library - which has now been fixed so we can do a simple:
 
-So instead you will need to have a local clone/copy of `p4go` and refer to it.
+    require "github.com/perforce/p4go"
 
-Assuming we are in the directory of this project (`~/go/src/github.com/rcowham/testp4go`), then to set this up:
+For nicer naming (IMO) our `main.go` we import like this:
 
-```
-cd ../..
-mkdir -p perforce
-cd perforce
-git clone https://github.com/perforce/p4go
-cd ../rcowham/testp4go
-```
-
-Note the `go.mod` for this project:
-
-    replace github.com/perforce/p4go/p4 => ../../perforce/p4go
-
-Then in our `main.go` we import like this:
-
-    import p4api "github.com/perforce/p4go/p4"
+    import p4api "github.com/perforce/p4go"
 
 ## Download p4api
 

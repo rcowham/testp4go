@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	p4api "github.com/perforce/p4go/p4"
+	p4api "github.com/perforce/p4go"
 )
 
 func main() {
